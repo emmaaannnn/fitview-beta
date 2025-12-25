@@ -66,9 +66,10 @@ This boots the Vapor API using the project's `Dockerfile` / `docker-compose.yml`
 1. Open the Xcode project: `open ios/FitView-IOS/FitView-IOS.xcodeproj`
 2. Select a simulator or device, then build & run.
 
-### Android (V1)
+### Android
 
 - The Android/Flutter codebase exists for historical reference; V1 is being deprecated in favor of the native Swift approach.
+- Kotlin app will be made in future stages of development.
 
 ---
 
@@ -77,6 +78,7 @@ This boots the Vapor API using the project's `Dockerfile` / `docker-compose.yml`
 ```
 fitview-V2/
 ├── ios/              # Native SwiftUI app
+├── android/          # Native Kotlin app (Will be made in the next stage of development)
 ├── backend/          # Vapor (Swift) server + Docker files
 ├── shared/           # Shared Swift package (models & logic)
 ├── design/           # Design assets & brand
