@@ -111,8 +111,82 @@ public enum BodyBuild: String, Codable, CaseIterable {
     case athletic = "Athletic"
     case muscular = "Muscular"
     case average = "Average"
-    case curvy = "Curvy"
     case large = "Large"
+}
+```
+
+---
+
+## Model: `User` (shared/Sources/models/User.swift) 🔎
+
+This section documents the `User` model used across the server and iOS client (shared Swift package). The `User` struct is `Codable`, `Identifiable`, and `Equatable` and acts as the "Anchor" for the Body-Double algorithm.
+
+### Overview
+- Type: `public struct User: Codable, Identifiable, Equatable`
+- Purpose: store identity, anchor metrics (height/weight/body build), region, and profile metadata.
+- Shared between backend and frontend to keep validation and presentation consistent.
+
+### Fields
+
+| Field | Type | Notes |
+|---|---|---|
+| `id` | `UUID` | Global stable identifier (used for relations) |
+| `username` | `String` | Public handle (discoverable) |
+| `email` | `String` | Private contact, not used for discovery |
+| `heightCm` | `Int?` | Height in centimeters (nullable if user skips) |
+| `weightKg` | `Int?` | Weight in kilograms (nullable) |
+| `bodyBuild` | `BodyBuildType?` | Enum with soulful descriptions (`Slim`, `Athletic`, `Average`, `Muscular`, `Large`) |
+| `stylePreference` | `StylePreference?` | Display preference (menswear, womenswear, unisex, fluid) |
+| `marketRegion` | `MarketRegion` | Region code (AU, US, UK, EU, JP); drives preferred measurement system |
+| `profileImageKey` | `String?` | S3 object key for profile image (store key only — not a full URL) |
+| `isVerified` | `Bool` | Trust flag used in feed & privileges |
+| `createdAt` | `Date` | Creation timestamp (default: now)
+
+### Supporting enums
+- `BodyBuildType` — provides display labels and a `definition` helper for UI copy.
+- `MarketRegion` — values: `au`, `us`, `uk`, `eu`, `jp` and a `preferredSystem` helper returning `MeasurementSystem` (`metric` or `imperial`).
+- `MeasurementSystem` — `metric` / `imperial` used for UI conversions.
+- `StylePreference` — `menswear` / `womenswear` / `unisex` / `fluid`.
+
+### Notes & best practices
+- The `profileImageKey` is an S3 object key; clients should construct delivery URLs using the CDN base URL + key (or request signed URLs for private content).
+- The struct initializer provides sensible defaults (e.g., `id` defaulting to `UUID()`, `createdAt` defaulting to `Date()`).
+- Keep validation consistent in the shared package (e.g., username uniqueness should be enforced server-side; basic format checks can live in shared code).
+- Store numeric metrics (`heightCm`, `weightKg`) as integers to simplify Body-Double math and queries.
+
+### Example Postgres migration (users table)
+
+```sql
+CREATE TABLE users (
+  id UUID PRIMARY KEY,
+  username TEXT UNIQUE NOT NULL,
+  email TEXT NOT NULL,
+  height_cm INT,
+  weight_kg INT,
+  body_build TEXT,
+  style_preference TEXT,
+  market_region TEXT NOT NULL,
+  profile_image_key TEXT,
+  is_verified BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+```
+
+### Example JSON (serialized `User`)
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "username": "@jane",
+  "email": "jane@example.com",
+  "heightCm": 170,
+  "weightKg": 60,
+  "bodyBuild": "Athletic",
+  "stylePreference": "Unisex",
+  "marketRegion": "AU",
+  "profileImageKey": "users/550e8400/avatar.jpg",
+  "isVerified": false,
+  "createdAt": "2025-12-28T00:00:00Z"
 }
 ```
 
