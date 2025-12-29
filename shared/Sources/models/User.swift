@@ -107,3 +107,17 @@ public enum StylePreference: String, Codable, CaseIterable {
     case unisex = "Unisex"         // Gender-neutral/Oversized Sizing
     case fluid = "Fluid"           // Browses/Wears everything
 }
+
+public extension User {
+    /// Returns height in feet/inches for US/UK users, keeping the underlying data in CM.
+    var heightDisplay: String {
+        if marketRegion.preferredSystem == .imperial {
+            let inches = Double(heightCm) / 2.54
+            let feet = Int(inches) / 12
+            let remainingInches = Int(inches) % 12
+            return "\(feet)'\(remainingInches)\""
+        } else {
+            return "\(heightCm)cm"
+        }
+    }
+}
