@@ -4,15 +4,29 @@
 import PackageDescription
 
 let package = Package(
-    name: "SharedModels",
+    name: "shared",
     platforms: [
-        .iOS(.v17),
-        .macOS(.v14)
+        .iOS(.v16),
+        .macOS(.v13)
     ],
     products: [
-        .library(name: "SharedModels", targets: ["SharedModels"]),
+        .library(name: "Models", targets: ["Models"]),
+        .library(name: "Logic", targets: ["Logic"]),
     ],
     targets: [
-        .target(name: "SharedModels", dependencies: [])
+        .target(
+            name: "Models",
+            path: "Sources/Models"
+        ),
+        .target(
+            name: "Logic",
+            dependencies: ["Models"],
+            path: "Sources/Logic"
+        ),
+        .testTarget(
+            name: "ModelsTests",
+            dependencies: ["Models", "Logic"],
+            path: "Tests/ModelTests"
+        )
     ]
 )

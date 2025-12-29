@@ -7,44 +7,47 @@ public enum FitIntent: String, Codable, CaseIterable {
     case disappointed // "It fits poorly / not as described"
 }
 
+func detectRegion(from url: URL) -> MarketRegion {
+    let host = url.host() ?? ""
+    if host.hasSuffix(".jp") || host.hasSuffix(".kr") { return .asia }
+    if host.hasSuffix(".au") { return .au }
+    if host.hasSuffix(".uk") { return .uk }
+    // Default to US if it's a .com global site
+    return .us
+}
+
 public struct FitReview: Codable, Identifiable, Equatable {
     public let id: UUID
     public let authorId: UUID
+    public let productId: UUID // Links to Product.swift
     
-    // 1. The Anchor (Frozen at time of post)
+    // 1. The Anchor (User's stats at time of post)
     public let authorHeightCm: Int
     public let authorBodyBuild: BodyBuildType 
     
-    // 2. The Product Snapshot
-    public let brandName: String
-    public let productName: String
-    public let sizeValue: String         // e.g., "32", "S", "40"
-    public let sizeCategory: StylePreference // mens, womens, unisex (defines the 'cut')
-    public let productURL: URL?
+    // 2. The Item Specifics
+    public let sizeValue: String         // e.g., "S"
+    public let sizeCategory: StylePreference // mens, womens, unisex
+    public let sizeRegion: MarketRegion     // e.g., .asia (Detected by Scraper)
     
-    // 3. The Fit Compass (The ONLY data we require)
-    // -1.0 (Tight/Short) | 0.0 (True) | 1.0 (Baggy/Long)
-    public let widthFit: Double  // OBJECTIVE: How it actually fits the body
-    public let lengthFit: Double // OBJECTIVE: Where it hits the limbs
+    // 3. The Fit Compass
+    public let widthFit: Double  
+    public let lengthFit: Double 
+    public let fitIntent: FitIntent 
     
-    public let fitIntent: FitIntent // SUBJECTIVE: Was this the look you wanted?
-    
-    // 4. Multi-Image Content
-    // An array of S3 keys. First one is the 'Hero' image.
+    // 4. Content
     public let imageKeys: [String] 
-    
     public let createdAt: Date
 
     public init(
         id: UUID = UUID(),
         authorId: UUID,
+        productId: UUID,
         authorHeightCm: Int,
         authorBodyBuild: BodyBuildType,
-        brandName: String,
-        productName: String,
         sizeValue: String,
         sizeCategory: StylePreference,
-        productURL: URL? = nil,
+        sizeRegion: MarketRegion,
         widthFit: Double,
         lengthFit: Double,
         fitIntent: FitIntent,
@@ -53,13 +56,12 @@ public struct FitReview: Codable, Identifiable, Equatable {
     ) {
         self.id = id
         self.authorId = authorId
+        self.productId = productId
         self.authorHeightCm = authorHeightCm
         self.authorBodyBuild = authorBodyBuild
-        self.brandName = brandName
-        self.productName = productName
         self.sizeValue = sizeValue
         self.sizeCategory = sizeCategory
-        self.productURL = productURL
+        self.sizeRegion = sizeRegion
         self.widthFit = widthFit
         self.lengthFit = lengthFit
         self.fitIntent = fitIntent

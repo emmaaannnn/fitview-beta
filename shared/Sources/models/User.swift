@@ -74,7 +74,7 @@ public enum MarketRegion: String, Codable, CaseIterable {
     case us = "US"
     case uk = "UK"
     case eu = "EU"
-    case jp = "JP"
+    case asia = "ASIA"
     
     /// Returns the display name for the UI
     public var displayName: String {
@@ -83,7 +83,7 @@ public enum MarketRegion: String, Codable, CaseIterable {
         case .us: return "United States"
         case .uk: return "United Kingdom"
         case .eu: return "Europe"
-        case .jp: return "Japan"
+        case .asia: return "Japan, China, Korea"
         }
     }
     
@@ -109,15 +109,21 @@ public enum StylePreference: String, Codable, CaseIterable {
 }
 
 public extension User {
-    /// Returns height in feet/inches for US/UK users, keeping the underlying data in CM.
+    /// Returns height in feet/inches for US/UK users, handling the optionality safely.
     var heightDisplay: String {
+        // 1. "Unwrap" the optional height. If it's nil, return a placeholder.
+        guard let height = heightCm else { 
+            return "---" 
+        }
+        
         if marketRegion.preferredSystem == .imperial {
-            let inches = Double(heightCm) / 2.54
+            let inches = Double(height) / 2.54
             let feet = Int(inches) / 12
             let remainingInches = Int(inches) % 12
             return "\(feet)'\(remainingInches)\""
         } else {
-            return "\(heightCm)cm"
+            // No longer an optional, so no warning here
+            return "\(height)cm"
         }
     }
 }
