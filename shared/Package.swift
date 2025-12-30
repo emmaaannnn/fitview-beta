@@ -36,6 +36,11 @@ let package = Package(
             name: "ModelsTests",
             dependencies: ["Models", "Logic"],
             path: "Tests/ModelTests"
+        ),
+        .testTarget(
+            name: "LogicTests",
+            dependencies: ["Logic", "Models"],
+            path: "Tests/LogicTests"
         )
     ]
 )
