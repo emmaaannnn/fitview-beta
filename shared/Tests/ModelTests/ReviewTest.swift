@@ -1,40 +1,59 @@
 import XCTest
 @testable import Models
 
-final class FitReviewTests: XCTestCase {
-    func testCompassVerdicts() {
-        // Test Boxy & Cropped
-        let boxyReview = FitReview(
-            authorId: UUID(),
-            productId: UUID(), // Product ID first
-            authorHeightCm: 180,
-            authorBodyBuild: .athletic,
-            sizeValue: "L",
-            sizeCategory: .menswear,
-            sizeRegion: .us, 
-            widthFit: 0.8,   // Baggy
-            lengthFit: -0.6, // Short
-            fitIntent: .intended,
-            imageKeys: ["img1"]
-        )
-        
-        XCTAssertEqual(boxyReview.compassVerdict, "Boxy & Cropped")
-        
-        // Test True to Size
-        let ttsReview = FitReview(
+final class ReviewTests: XCTestCase {
+    
+    // Helper to create a review with defaults
+    private func makeReview(widthFit: Double, lengthFit: Double) -> FitReview {
+        return FitReview(
             authorId: UUID(),
             productId: UUID(),
             authorHeightCm: 180,
             authorBodyBuild: .athletic,
             sizeValue: "M",
-            sizeCategory: .menswear,
-            sizeRegion: .us,   // <--- ADD THIS
-            widthFit: 0.0,
-            lengthFit: 0.0,
+            genderCategory: .mens,
+            sizeRegion: .us,
+            widthFit: widthFit,
+            lengthFit: lengthFit,
             fitIntent: .intended,
-            imageKeys: ["img1"]
+            imageKeys: []
         )
+    }
+    
+    func testWidthDescription() {
+        XCTAssertEqual(makeReview(widthFit: -0.8, lengthFit: 0).widthDescription, "Very Tight")
+        XCTAssertEqual(makeReview(widthFit: -0.5, lengthFit: 0).widthDescription, "Slim")
+        XCTAssertEqual(makeReview(widthFit: 0.0, lengthFit: 0).widthDescription, "True to Size")
+        XCTAssertEqual(makeReview(widthFit: 0.5, lengthFit: 0).widthDescription, "Relaxed")
+        XCTAssertEqual(makeReview(widthFit: 0.8, lengthFit: 0).widthDescription, "Oversized / Baggy")
+    }
+    
+    func testLengthDescription() {
+        XCTAssertEqual(makeReview(widthFit: 0, lengthFit: -0.8).lengthDescription, "Very Cropped")
+        XCTAssertEqual(makeReview(widthFit: 0, lengthFit: -0.5).lengthDescription, "Short")
+        XCTAssertEqual(makeReview(widthFit: 0, lengthFit: 0.0).lengthDescription, "Standard Length")
+        XCTAssertEqual(makeReview(widthFit: 0, lengthFit: 0.5).lengthDescription, "Long")
+        XCTAssertEqual(makeReview(widthFit: 0, lengthFit: 0.8).lengthDescription, "Extra Long / Tall")
+    }
+    
+    func testCompassVerdicts() {
+        // Test Boxy & Cropped
+        let boxyCropped = makeReview(widthFit: 0.4, lengthFit: -0.4)
+        XCTAssertEqual(boxyCropped.compassVerdict, "Boxy & Cropped")
+
+        // Test Super Oversized
+        let superOversized = makeReview(widthFit: 0.6, lengthFit: 0.6)
+        XCTAssertEqual(superOversized.compassVerdict, "Super Oversized")
         
-        XCTAssertEqual(ttsReview.widthDescription, "True to Size")
+        // Test Small & Short
+        let smallShort = makeReview(widthFit: -0.4, lengthFit: -0.4)
+        XCTAssertEqual(smallShort.compassVerdict, "Small & Short")
+
+        // Test regular combo
+        let regular = makeReview(widthFit: 0.0, lengthFit: 0.0)
+        XCTAssertEqual(regular.compassVerdict, "True to Size / Standard Length")
+        
+        let slimLong = makeReview(widthFit: -0.5, lengthFit: 0.5)
+        XCTAssertEqual(slimLong.compassVerdict, "Slim / Long")
     }
 }
