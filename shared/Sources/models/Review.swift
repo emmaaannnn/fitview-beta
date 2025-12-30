@@ -7,15 +7,6 @@ public enum FitIntent: String, Codable, CaseIterable {
     case disappointed // "It fits poorly / not as described"
 }
 
-func detectRegion(from url: URL) -> MarketRegion {
-    let host = url.host() ?? ""
-    if host.hasSuffix(".jp") || host.hasSuffix(".kr") { return .asia }
-    if host.hasSuffix(".au") { return .au }
-    if host.hasSuffix(".uk") { return .uk }
-    // Default to US if it's a .com global site
-    return .us
-}
-
 public struct FitReview: Codable, Identifiable, Equatable {
     public let id: UUID
     public let authorId: UUID

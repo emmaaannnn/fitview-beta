@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:fitview-v2}/shared",
+            "name": "Debug Scraper (shared)",
+            "target": "Scraper",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug Scraper (shared)"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:fitview-v2}/shared",
+            "name": "Release Scraper (shared)",
+            "target": "Scraper",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release Scraper (shared)"
+        }
+    ]
+}

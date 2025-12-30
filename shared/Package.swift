@@ -13,6 +13,9 @@ let package = Package(
         .library(name: "Models", targets: ["Models"]),
         .library(name: "Logic", targets: ["Logic"]),
     ],
+    dependencies: [
+        .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.6.0"),
+    ],
     targets: [
         .target(
             name: "Models",
@@ -22,6 +25,12 @@ let package = Package(
             name: "Logic",
             dependencies: ["Models"],
             path: "Sources/Logic"
+        ),
+        // New Target: The Scraper "Hands"
+        .executableTarget(
+            name: "Scraper",
+            dependencies: ["Models", "Logic", "SwiftSoup"],
+            path: "Sources/Scraper"
         ),
         .testTarget(
             name: "ModelsTests",
