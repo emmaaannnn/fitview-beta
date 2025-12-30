@@ -12,7 +12,8 @@ struct ScraperApp {
             "https://www.zara.com/au/en/perforated-long-sleeve-t-shirt-p04387416.html?v1=457855780&v2=2133743",
             "https://www.kmart.com.au/product/rib-tank-s169486/?selectedSwatch=DRIFT+BROWN",
             "https://www.bigw.com.au/product/allgood-men-s-double-cloth-shirt-navy/p/1747940-navy",
-            "https://www2.hm.com/en_us/productpage.1316883001.html"
+            "https://www2.hm.com/en_us/productpage.1316883001.html",
+            "https://www2.hm.com/en_au/productpage.1272338003.html"
         ]
 
         print("🚀 Starting Batch Scrape...\n")
@@ -80,11 +81,23 @@ struct ScraperApp {
                 }
             }
 
+            // Extract the raw text strings from the document
+            let bodyText = (try? doc.body()?.text()) ?? ""
+            let breadcrumbs = (try? doc.select(".breadcrumb, .breadcrumbs").text()) ?? ""
+
+            // Pass clean strings to Logic
+            let gender = ProductDetector.detectGender(
+                from: url, 
+                bodyText: bodyText, 
+                breadcrumbs: breadcrumbs
+            )
+
             // 6. Create Product
             let scrapedProduct = Product(
                 brandName: detectedBrand,
                 name: cleanedName,
                 sku: finalID,
+                genderCategory: gender, // Assigned here
                 originRegion: region,
                 originalURL: url,
             )
@@ -94,6 +107,7 @@ struct ScraperApp {
             print("Product:    \(scrapedProduct.name)")
             print("Region:     \(scrapedProduct.originRegion.displayName)")
             print("Product ID: \(scrapedProduct.sku ?? "None")")
+            print("Gender:     \(scrapedProduct.genderCategory.rawValue)")
 
         } catch {
             print("❌ Automation failed: \(error.localizedDescription)")

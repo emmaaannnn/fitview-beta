@@ -69,33 +69,6 @@ public enum BodyBuildType: String, Codable, CaseIterable {
     }
 }
 
-public enum MarketRegion: String, Codable, CaseIterable {
-    case au = "AU"
-    case us = "US"
-    case uk = "UK"
-    case eu = "EU"
-    case asia = "ASIA"
-    
-    /// Returns the display name for the UI
-    public var displayName: String {
-        switch self {
-        case .au: return "Australia"
-        case .us: return "United States"
-        case .uk: return "United Kingdom"
-        case .eu: return "Europe"
-        case .asia: return "Japan, China, Korea"
-        }
-    }
-    
-    /// Helps the app decide whether to show Metric or Imperial
-    public var preferredSystem: MeasurementSystem {
-        switch self {
-        case .us, .uk: return .imperial
-        default: return .metric
-        }
-    }
-}
-
 public enum MeasurementSystem: String, Codable {
     case metric   // cm/kg
     case imperial // ft-in/lbs

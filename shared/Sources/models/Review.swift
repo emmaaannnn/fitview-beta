@@ -18,7 +18,7 @@ public struct FitReview: Codable, Identifiable, Equatable {
     
     // 2. The Item Specifics
     public let sizeValue: String         // e.g., "S"
-    public let sizeCategory: StylePreference // mens, womens, unisex
+    public let genderCategory: GenderCategory // mens, womens, unisex
     public let sizeRegion: MarketRegion     // e.g., .asia (Detected by Scraper)
     
     // 3. The Fit Compass
@@ -37,7 +37,7 @@ public struct FitReview: Codable, Identifiable, Equatable {
         authorHeightCm: Int,
         authorBodyBuild: BodyBuildType,
         sizeValue: String,
-        sizeCategory: StylePreference,
+        genderCategory: GenderCategory,
         sizeRegion: MarketRegion,
         widthFit: Double,
         lengthFit: Double,
@@ -51,7 +51,7 @@ public struct FitReview: Codable, Identifiable, Equatable {
         self.authorHeightCm = authorHeightCm
         self.authorBodyBuild = authorBodyBuild
         self.sizeValue = sizeValue
-        self.sizeCategory = sizeCategory
+        self.genderCategory = genderCategory
         self.sizeRegion = sizeRegion
         self.widthFit = widthFit
         self.lengthFit = lengthFit
