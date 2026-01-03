@@ -19,6 +19,26 @@
             "target": "Scraper",
             "configuration": "release",
             "preLaunchTask": "swift: Build Release Scraper (shared)"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:fitview-v2}/backend",
+            "name": "Debug backend (backend)",
+            "target": "backend",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug backend (backend)"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:fitview-v2}/backend",
+            "name": "Release backend (backend)",
+            "target": "backend",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release backend (backend)"
         }
     ]
 }

@@ -11,7 +11,6 @@ public struct User: Codable, Identifiable, Equatable {
     public let heightCm: Int?
     public let weightKg: Int?
     public let bodyBuild: BodyBuildType?
-    public let stylePreference: StylePreference?
     
     // Geographical Context
     public let marketRegion: MarketRegion
@@ -28,7 +27,6 @@ public struct User: Codable, Identifiable, Equatable {
         heightCm: Int? = nil,
         weightKg: Int? = nil,
         bodyBuild: BodyBuildType? = nil,
-        stylePreference: StylePreference? = nil,
         marketRegion: MarketRegion,
         profileImageKey: String? = nil,
         isVerified: Bool = false,
@@ -40,7 +38,6 @@ public struct User: Codable, Identifiable, Equatable {
         self.heightCm = heightCm
         self.weightKg = weightKg
         self.bodyBuild = bodyBuild
-        self.stylePreference = stylePreference
         self.marketRegion = marketRegion
         self.profileImageKey = profileImageKey
         self.isVerified = isVerified
@@ -72,13 +69,6 @@ public enum BodyBuildType: String, Codable, CaseIterable {
 public enum MeasurementSystem: String, Codable {
     case metric   // cm/kg
     case imperial // ft-in/lbs
-}
-
-public enum StylePreference: String, Codable, CaseIterable {
-    case menswear = "Menswear"     // Standard Male Sizing
-    case womenswear = "Womenswear" // Standard Female Sizing
-    case unisex = "Unisex"         // Gender-neutral/Oversized Sizing
-    case fluid = "Fluid"           // Browses/Wears everything
 }
 
 public extension User {

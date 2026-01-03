@@ -8,22 +8,29 @@ public enum GenderCategory: String, Codable, CaseIterable {
 }
 
 public struct Product: Codable, Identifiable, Equatable {
+    // 1. Internal System ID
     public let id: UUID
-    public let brandName: String
-    public let name: String
-    public let sku: String? // Added: The manufacturer's unique ID
+    
+    // 2. THE ANCHORS (Identity Verification)
+    public let brandName: String // The manufacturer (e.g., "Nike", "Uniqlo")
+    public let sku: String // The unique manufacturer ID (e.g., "HV0950-234"). Required for version tracking.
 
+    // 3. CONTEXTUAL METADATA (Ease of use for consumer)
+    public let storeName: String
+    public let name: String
     public let genderCategory: GenderCategory
     public let originRegion: MarketRegion 
     public let originalURL: URL
     
+    // 4. TIMELINE
     public let createdAt: Date
 
     public init(
         id: UUID = UUID(),
         brandName: String,
+        sku: String, // Now required
+        storeName: String,
         name: String,
-        sku: String? = nil,
         genderCategory: GenderCategory = .unknown,
         originRegion: MarketRegion,
         originalURL: URL,
@@ -31,8 +38,9 @@ public struct Product: Codable, Identifiable, Equatable {
     ) {
         self.id = id
         self.brandName = brandName
-        self.name = name
         self.sku = sku
+        self.storeName = storeName
+        self.name = name
         self.genderCategory = genderCategory
         self.originRegion = originRegion
         self.originalURL = originalURL

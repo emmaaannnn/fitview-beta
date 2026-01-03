@@ -24,18 +24,16 @@ public enum UserDTOs {
         public let heightCm: Int?
         public let weightKg: Int?
         public let bodyBuild: BodyBuildType?
-        public let stylePreference: StylePreference?
         public let marketRegion: MarketRegion
         public let profileImageKey: String?
         public let isVerified: Bool
 
-        public init(id: UUID, username: String, heightCm: Int?, weightKg: Int?, bodyBuild: BodyBuildType?, stylePreference: StylePreference?, marketRegion: MarketRegion, profileImageKey: String?, isVerified: Bool) {
+        public init(id: UUID, username: String, heightCm: Int?, weightKg: Int?, bodyBuild: BodyBuildType?, marketRegion: MarketRegion, profileImageKey: String?, isVerified: Bool) {
             self.id = id
             self.username = username
             self.heightCm = heightCm
             self.weightKg = weightKg
             self.bodyBuild = bodyBuild
-            self.stylePreference = stylePreference
             self.marketRegion = marketRegion
             self.profileImageKey = profileImageKey
             self.isVerified = isVerified
@@ -48,15 +46,13 @@ public enum UserDTOs {
         public let heightCm: Int?
         public let weightKg: Int?
         public let bodyBuild: BodyBuildType?
-        public let stylePreference: StylePreference?
         public let marketRegion: MarketRegion?
 
-        public init(username: String?, heightCm: Int?, weightKg: Int?, bodyBuild: BodyBuildType?, stylePreference: StylePreference?, marketRegion: MarketRegion?) {
+        public init(username: String?, heightCm: Int?, weightKg: Int?, bodyBuild: BodyBuildType?, marketRegion: MarketRegion?) {
             self.username = username
             self.heightCm = heightCm
             self.weightKg = weightKg
             self.bodyBuild = bodyBuild
-            self.stylePreference = stylePreference
             self.marketRegion = marketRegion
         }
     }

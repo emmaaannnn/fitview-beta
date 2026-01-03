@@ -23,7 +23,7 @@ let package = Package(
         ),
         .target(
             name: "Logic",
-            dependencies: ["Models"],
+            dependencies: ["Models", "SwiftSoup"],
             path: "Sources/Logic"
         ),
         // New Target: The Scraper "Hands"
