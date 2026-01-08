@@ -3,7 +3,7 @@ import Foundation
 public enum UserDTOs {
     
     // Sent from a client to create a user
-    public struct Create: Codable {
+    public struct Create: Codable, Sendable {
         public let username: String
         public let email: String
         public let password: String
@@ -18,7 +18,7 @@ public enum UserDTOs {
     }
     
     // Sent from a server to a client for public display
-    public struct Public: Codable {
+    public struct Public: Codable, Sendable {
         public let id: UUID
         public let username: String
         public let heightCm: Int?
@@ -41,7 +41,7 @@ public enum UserDTOs {
     }
     
     // Sent from a client to update a user's profile
-    public struct Update: Codable {
+    public struct Update: Codable, Sendable {
         public let username: String?
         public let heightCm: Int?
         public let weightKg: Int?
@@ -58,7 +58,7 @@ public enum UserDTOs {
     }
 
     // Added for MVP Login
-    public struct Login: Codable {
+    public struct Login: Codable, Sendable {
         public let email: String
         public let password: String
 

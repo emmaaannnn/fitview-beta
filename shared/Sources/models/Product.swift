@@ -1,6 +1,6 @@
 import Foundation
 
-public enum GenderCategory: String, Codable, CaseIterable {
+public enum GenderCategory: String, Codable, CaseIterable, Sendable {
     case mens = "Men"
     case womens = "Women"
     case unisex = "Unisex"

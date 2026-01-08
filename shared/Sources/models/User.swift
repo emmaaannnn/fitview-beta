@@ -47,7 +47,7 @@ public struct User: Codable, Identifiable, Equatable {
 
 // MARK: - Supporting Types
 
-public enum BodyBuildType: String, Codable, CaseIterable {
+public enum BodyBuildType: String, Codable, CaseIterable, Sendable {
     case slim = "Slim"
     case athletic = "Athletic"
     case average = "Average"

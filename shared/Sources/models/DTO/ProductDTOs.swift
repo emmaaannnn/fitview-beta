@@ -3,7 +3,7 @@ import Foundation
 public enum ProductDTOs {
     
     // Public representation of a Product, sent from server to client
-    public struct Public: Codable {
+    public struct Public: Codable, Sendable {
         public let id: UUID
         // Anchors
         public let brandName: String
@@ -41,7 +41,7 @@ public enum ProductDTOs {
     }
 
     // Sent from client to server to trigger a new scrape/addition
-    public struct Create: Codable {
+    public struct Create: Codable, Sendable {
         public let url: URL
 
         public init(url: URL) {

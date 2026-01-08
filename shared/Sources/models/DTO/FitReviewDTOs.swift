@@ -3,7 +3,7 @@ import Foundation
 public enum FitReviewDTOs {
     
     // Sent from client to create a new FitReview
-    public struct Create: Codable {
+    public struct Create: Codable, Sendable {
         public let productId: UUID
         public let sizeValue: String
         public let widthFit: Double
@@ -22,7 +22,7 @@ public enum FitReviewDTOs {
     }
     
     // Public representation of a FitReview, sent from server to client
-    public struct Public: Codable {
+    public struct Public: Codable, Sendable {
         public let id: UUID
         public let author: UserDTOs.Public // Embed the author's public profile
         public let productID: UUID

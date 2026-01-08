@@ -1,6 +1,6 @@
 import Foundation
 
-public enum FitIntent: String, Codable, CaseIterable {
+public enum FitIntent: String, Codable, CaseIterable, Sendable {
     case intended    // "Fits exactly how the designer meant it to"
     case sizeUp      // "I wanted it baggier, so I went up"
     case sizeDown    // "It runs huge, so I went down"

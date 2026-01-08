@@ -1,6 +1,6 @@
 import Foundation
 
-public enum MarketRegion: String, Codable, CaseIterable {
+public enum MarketRegion: String, Codable, CaseIterable, Sendable {
     case au = "AU"
     case us = "US"
     case uk = "UK"
