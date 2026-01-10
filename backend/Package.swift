@@ -28,6 +28,8 @@ let package = Package(
                 .product(name: "NIOCore", package: "swift-nio"),
                 .product(name: "NIOPosix", package: "swift-nio"),
 
+                .product(name: "SwiftSoup", package: "SwiftSoup"),
+
                 // Shared Models + Logic
                 .product(name: "Models", package: "shared"),
                 .product(name: "Logic", package: "shared")

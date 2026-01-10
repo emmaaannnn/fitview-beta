@@ -30,6 +30,7 @@ final class UserModel: Model, Content {
     }
 
     @Field(key: "created_at") var createdAt: Date
+    @Children(for: \.$author) var reviews: [FitReviewModel]
 
     init() {}
 

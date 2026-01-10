@@ -12,7 +12,8 @@ struct CreateProduct: Migration {
             .field("origin_region", .string, .required)
             .field("original_url", .string, .required)
             .field("created_at", .datetime, .required)
-            .unique(on: "sku")
+            .unique(on: "brand_name", "sku")
+            
             .create()
     }
 
